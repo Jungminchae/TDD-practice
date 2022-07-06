@@ -392,3 +392,4 @@ media/
 .vscode/
 logs/
 db/
+schema.yaml
