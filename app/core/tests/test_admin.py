@@ -22,3 +22,12 @@ def test_edit_user_page(client, superuser, normal_user):
     response = client.get(url)
 
     assert response.status_code == 200
+
+
+def test_create_user_page(client, superuser):
+    """Test create user page"""
+    url = reverse("admin:core_user_add")
+    client.force_login(superuser)
+    response = client.get(url)
+
+    assert response.status_code == 200
