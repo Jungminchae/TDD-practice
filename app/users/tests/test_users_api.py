@@ -6,6 +6,7 @@ from rest_framework import status
 
 pytestmark = pytest.mark.django_db
 CREATE_USER_URL = reverse("users:create")
+TOKEN_URL = reverse("users:token")
 
 
 def test_create_user_api_success(client):
@@ -45,3 +46,19 @@ def test_password_too_short_error(client):
     user_exists = get_user_model().objects.filter(email=data["email"]).exists()
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert user_exists is False
+
+
+def test_create_token_for_user(client, normal_user):
+    """Test that a token is created for the user"""
+    data = {"email": normal_user.email, "password": normal_user.password}
+    response = client.post(TOKEN_URL, data)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.data["token"] is not None
+
+
+def test_create_token_bad_credentials(client, normal_user):
+    """Test returns an error for bad credentials"""
+    data = {"email": normal_user.email, "password": "wrong"}
+    response = client.post(TOKEN_URL, data)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.data["token"] is None
