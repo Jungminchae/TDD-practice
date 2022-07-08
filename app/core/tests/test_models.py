@@ -1,6 +1,7 @@
+from decimal import Decimal
 import pytest
 from django.contrib.auth import get_user_model
-
+from core.models import Recipe
 
 pytestmark = pytest.mark.django_db
 
@@ -42,3 +43,17 @@ def test_create_superuser_with_email_successful():
     user = get_user_model().objects.create_superuser(email=email, password=password)
     assert user.is_superuser is True
     assert user.is_staff is True
+
+
+def test_create_recipe(normal_user):
+    """
+    Test creating a new recipe
+    """
+    recipe = Recipe.objects.create(
+        title="Test recipe",
+        time_minutes=10,
+        price=Decimal("5.00"),
+        user=normal_user,
+        description="This is a test recipe",
+    )
+    assert recipe.title == "Test recipe"
