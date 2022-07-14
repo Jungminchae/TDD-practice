@@ -1,7 +1,7 @@
 from decimal import Decimal
 import pytest
 from django.contrib.auth import get_user_model
-from core.models import Recipe
+from core.models import Receipe
 
 pytestmark = pytest.mark.django_db
 
@@ -49,7 +49,7 @@ def test_create_recipe(normal_user):
     """
     Test creating a new recipe
     """
-    recipe = Recipe.objects.create(
+    recipe = Receipe.objects.create(
         title="Test recipe",
         time_minutes=10,
         price=Decimal("5.00"),

@@ -1,5 +1,7 @@
 import pytest
+from decimal import Decimal
 from django.contrib.auth import get_user_model
+from core.models import Receipe
 
 
 @pytest.fixture
@@ -23,4 +25,16 @@ def normal_user():
 def superuser():
     return get_user_model().objects.create_superuser(
         email="admin_123@example.com", password="Password123"
+    )
+
+
+@pytest.fixture
+def sample_recipe():
+    """Create a sample recipe"""
+    return Receipe.objects.create(
+        title="Sample recipe",
+        time_minutes=10,
+        price=Decimal("5.00"),
+        user=normal_user,
+        description="This is a test recipe",
     )
