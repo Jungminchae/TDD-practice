@@ -17,3 +17,11 @@ class RecipeSerializer(serializers.ModelSerializer):
             "user": {"read_only": True},
             "link": {"read_only": True},
         }
+
+
+class RecipeDetailSerializer(RecipeSerializer):
+    """Serializer for recipe objects"""
+
+    class Meta:
+        model = Receipe
+        fields = RecipeSerializer.Meta.fields + ("description",)
